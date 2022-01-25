@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+  
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+#regForm {
+  border: solid;
+  border-color: #EE7023;
+  border-size: 1px;
+  background-color: #FBF2EA;
+  margin: 100px auto;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 40px;
+  width: 70%;
+  min-width: 300px;
+  
+}
+p {
+    color: #512B2B;
+}
+
+h1 {
+  color: #512B2B;
+  text-align: center;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  border-color: red;
+}
+select.invalid {
+  border-color: red;
+  border-radius: 5px;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+button {
+  background-color: #EE7023;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+#selectDivId {
+  align: center;
+}
+#prevBtn {
+  background-color: #FDC129;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  overflow:auto;
+  height: 20px;
+  width: 20px;
+  margin: 0 4px;
+  background-color: #FDC129;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+.tooltipQ {
+  overflow:auto;
+  height: 20px;
+  width: 20px;
+  margin: 0 4px;
+  background-color: #FDC129;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #04AA6D;
+  opacity: 1;
+}
+#errorDiv {
+  background-color: #ff8c74;
+  border: 1px solid;
+  border-color: red;
+  border-left: 10px solid red;
+  display: none;
+}
+.required {
+  color: #EE7023;
+}
+.sliderDiv {
+  
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  overflow-x:auto;
+  text-align:left;
+  
+}
+th, td {
+  font-size: 15px;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  padding: 8px;
+
+}
+
+ul {
+  color: orange;
+}
+select {
+  width: 100%;
+  max-width: 250px;
+  background-color: #EBF8F2;
+  border-color:  #8ACDC3;
+  border-radius: 5px;
+  height: 50px;
+  text-align: center;
+  border-style: solid;
+  margin-bottom: 15px;
+}
+option {
+  text-align: center;
+}
+.slider {
+  
+  width: 100%;
+  max-width: 350px;
+  height: 40px;
+  background-color: red;
+  
+}
+.sliderInput {
+  width: 100%;
+  max-width: 150px;
+}
+.personalInfoInput {
+  width: 100%;
+  max-width: 350px;
+}
+.interest {
+  display: inline;
+}
+h3 {
+  text-align: left;
+  color: #512B2B;
+}
+textarea {
+  width: 100%;
+  max-width: 350px;
+  height: 100%;
+  max-height: 200px;
+  resize: none;
+}
+</style>
+<body>
+
+<form id="regForm" action="">
+<div style="text-align:center;margin-top:25px;">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+  </div>
+  <h1>Credit Card Application</h1>
+  <div id="errorDiv">
+  <p style="margin-left: 30px;">The mandatory information is missing or incorrect!</p>
+  </div>
+  <!-- One "tab" for each step in the form: -->
+  <div class="tab"><p style="text-align:center;">Intro</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ultricies cursus tellus, eu vestibulum nisi auctor in. Praesent a aliquam dolor. 
+    Cras euismod ipsum eget venenatis cursus. Nunc sollicitudin libero vitae eros efficitur, eu faucibus ante commodo. Nullam dictum tempor arcu, non dignissim dui blandit ornare. 
+    Phasellus tristique tempor tincidunt. In condimentum rutrum nulla, nec condimentum dolor placerat ac. Aenean feugiat quam eget enim convallis, vel pretium risus dapibus. 
+    Donec aliquam, tellus ac pretium commodo, felis arcu tincidunt purus, quis finibus eros magna sed urna. Etiam molestie leo porta nunc aliquam viverra. 
+    Nulla dapibus quam ipsum, et interdum ante iaculis eu. Maecenas vitae mattis nibh, quis imperdiet elit. </p>
+    <div id="table" style="overflow-x:auto;">
+    <table> 
+      <tr>
+        <th></th>
+        <th><p>Silver</p></th>
+        <th><p>Gold</p></th>
+        <th><p>Platinum</p></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th><p>Best choice for your purchases and occasional travels abroad.</p></th>
+        <th><p>Travel insurance for the whole family traveling together.</p></th>
+        <th><p>Our best travel insurance, access to airport lounges with LoungeKey™.</p></th>
+      </tr>
+      <tr>
+        <th><p>Purchase insurance</th>
+        <th>✓</th>
+        <th>✓</th>
+        <th>✓</th>
+      </tr>
+      <tr>
+        <th><p>Travel insurance</p></th>
+        <th><p>Basic</p></th>
+        <th><p>Wide</p></th>
+        <th><p>Exclusive</p></th>
+      </tr>
+      <tr>
+        <th><p>Covid-19 insurance cover</p></th>
+        <th><ul><li><p>Medical assistance (cost)</p></li></ul></th>
+        <th><ul><li><p>Medical assistance (cost)</p></li><li><p>Travel disruption insurance</p></li></ul></th>
+        <th><ul><li><p>Medical assistance (cost)</p></li><li><p>Travel disruption insurance</p></li></ul></th>
+      </tr>
+      <tr>
+        <th><p>LoungeKey™</p></th>
+        <th><p></p></th>
+        <th><p></p></th>
+        <th><p>✓</p></th>
+      </tr>
+      <tr>
+        <th><p>Credit limit</p></th>
+        <th><p>From 300EUR</p></th>
+        <th><p>From 600EUR</p></th>
+        <th><p>From 2000EUR</p></th>
+      </tr>
+      <tr>
+        <th><p>No commission fee for cash withdrawals worldwide</p></th>
+        <th><p></p></th>
+        <th><p>Up to 500 Eur per month</p></th>
+        <th><p>Up to 1000 Eur per month</p></th>
+      </tr>
+      <tr>
+        <th><p>Currency exchange fee - up to EUR 10 000 per month - over EUR 10 000 per month</p></th>
+        <th><p></p></th>
+        <th><p>0 %</p><br><p>2.45 %</p></th>
+        <th><p>0 %</p><br><p>2.45 %</p></th>
+      </tr>
+      <tr>
+        <th><p>Interest free period</p></th>
+        <th><p>25 days</p></th>
+        <th><p>30 days</p></th>
+        <th><p>Up to 50 days</p></th>
+      </tr>
+      <tr>
+        <th><p>Monthly fee *</p></th>
+        <th><p>1,44 €</p></th>
+        <th><p>3,47 €</p></th>
+        <th><p>16 €/month</p></th>
+      </tr>
+      <tr>
+        <th><p>Issuing fee</p></th>
+        <th><p>By post in Lithuania 2 Eur, In a branch 5 Eur</p></th>
+        <th><p>By post in Lithuania 2 Eur, In a branch 5 Eur</p></th>
+        <th><p>By post in Lithuania 2 Eur, In a branch 5 Eur</p></th>
+      </tr>
+      <tr>
+        <th><p>Annual interest form *</p></th>
+        <th><p>from 17%</p></th>
+        <th><p>from 17%</p></th>
+        <th><p>from 12%</p></th>
+      </tr>
+
+
+    </table>
+    </div>
+    <div style="text-align:center;margin-top:25px;">
+    Select Credit Card   <span class="required"> * </span><select name="cards" id="cardsId" oninput="this.className = ''" >
+      <option value=""></option>
+      <option value="Silver">Silver Credit Card</option>
+      <option value="Gold">Gold Credit Card</option>
+      <option value="Platinum">Platinum Credit Card</option>
+    </select>
+    </div>
+  </div>
+
+  <div class="tab"><h3>First Q</h3><hr>
+    <div class="sliderDiv" style="text-align:center;margin-top:25px;">
+      <p style="display: inline;">Credit Limit</p><span class="required"> * </span>
+      <input type="range" min="300" max="3000" value="1000" class="slider" id="sliderId" step="50" style="vertical-align:middle;">
+      <input oninput="this.className = ''" onfocusout="checkSlider()"name="creditLimitInput" value="1000" id="sliderText" class="sliderInput"><p style="display:inline;"> EUR</p>
+      <br> 
+      <div style="text-align:center;margin-top:25px;" class="interest">
+            <p style="display: inline;">Interest payment day</p><span class="required"> * </span><select name="daySelect" style="max-width: 80px;" id="daySelectId" oninput="this.className = ''" >
+            <option value=""></option>
+            <option value="2">2</option>
+            <option value="6">6</option>
+            <option value="11">11</option>
+            <option value="16">16</option>
+            <option value="21">21</option>
+            <option value="26">26</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;"class="tab"><h3>Second Q</h3><hr>
+    <div style="text-align:center;margin-top:25px;display: block;">
+    <div>
+    <p>Name<span class="required"> * </span></p> 
+    <input oninput="this.className = 'personalInfoInput '" name="name" class="personalInfoInput" id="name"> 
+    </div>
+    
+    <div>
+    <p>Surname<span class="required"> * </span></p>
+    <input oninput="this.className = 'personalInfoInput '" name="surname" class="personalInfoInput" id="surname">
+    </div>
+    </div>
+  </div>
+  <div style="text-align:center;" class="tab"><h3>Third Q</h3><hr>
+  <div style="text-align:center;margin-top:25px;display: block;">
+    <div>
+    <p >Salary<span class="required"> * </span> <div class="tooltip" >
+      <span class="tooltipQ">?</span>
+      <span class="tooltiptext">Monthly salary after tax</span>
+ </div></p>
+    <input oninput="this.className = 'personalInfoInput '" name="salary" id="salary" class="personalInfoInput">
+    </div>
+    
+    <div>
+    <p >Other <span class="required"> * </span></p>
+    <input oninput="this.className = 'personalInfoInput '" name="other" id="other" class="personalInfoInput">
+    </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;" class="tab"><h3>Fourt Q</h3><hr>
+
+  <p>Yes No Question?<span class="required"> * </span></p>
+  <div style="display: inline-block;">
+  <p><label class="container">Yes
+  <input type="radio" name="radio" id="radioId" value="yes" oninput="displayRadioValue()" classname="radioClass">
+  <span class="checkmark"></span>
+  </label></p>
+  <p><label class="container">No
+  <input type="radio" name="radio" id="radioId" value="no" oninput="displayRadioValue()" classname="radioClass" checked="checked">
+  <span class="checkmark"></span>
+  </label>
+  </p>
+  </div>
+  </div>
+  <div style="text-align:center;" class="tab"><h3>Fifth Q</h3><hr>
+<label class="container"><p>Do You want to recive emails with special offers?</p>
+  <p>Yes<input type="checkbox" id="myCheck" onclick="checkBoxF()"><span class="checkmark"></span></p> 
+</label>
+
+    <p>Additional information</p>
+    <textarea></textarea>
+  </div>
+  <div class="tab"><h3>Summary</h3><hr>
+    
+    <p id="creditCardType"></p>
+    <hr>
+    <p id="firstQA"></p><hr>
+    <p id="secondQA"></p><hr>
+    <p id="thirdQA"></p><hr>
+    <p id="fourthQA"></p><hr>
+    <p id="fifthQA" style="display:none;">Do You want to recive emails with special offers? Yes</p>
+    
+  </div>
+  <div style="overflow:auto;">
+    <div style="float:left"> 
+    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+    </div>
+    <div style="float:right;">
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+    </div>
+  </div>
+</form>
+
+<script src="main.js">
+
+</script>
+
+</body>
+</html>
